@@ -1,0 +1,23 @@
+import React, { useEffect } from 'react';
+import { MyContext } from './context';
+import useSetState from './useSetState';
+import { StateProps } from './types';
+import Counter from './components/Counter';
+
+import './index.less';
+function <%= pageName %>() {
+  const [state, setState] = useSetState<StateProps>({
+    counter: 0,
+  });
+  useEffect(() => {
+  }, []);
+  return (
+    <MyContext.Provider value={{ state, setState, }} >
+      <div className="page">
+        <Counter />
+      </div>
+    </MyContext.Provider>
+  );
+}
+
+export default <%= pageName %>;
