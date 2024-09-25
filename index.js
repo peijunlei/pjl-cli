@@ -31,10 +31,11 @@ program.command('download').alias('d')
   .description('下载git仓库')
   .action(async () => {
     const pageName = await input({ message: '请输入项目名称:', default: 'page-demo' });
+    const gitName = await input({ message: '请输入git用户名:', default: 'peijunlei' });
     // 获取git仓库列表
     const gitLoading = ora('正在获取git仓库列表...')
     gitLoading.start()
-    const list = await getGitReposList('peijunlei')
+    const list = await getGitReposList(gitName)
     gitLoading.succeed('获取git仓库列表成功')
     const gitPath = await select({ message: '请选择模板:', choices: list || templates });
     console.log(gitPath)
