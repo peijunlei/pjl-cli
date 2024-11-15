@@ -1,9 +1,8 @@
 name: Publish to npm
 
 on:
-  push:
-    tags:
-      - '*'
+ release:
+    types: [published]  # 在发布新版本时触发
 jobs:
 
   publish-npm:
