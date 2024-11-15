@@ -4,7 +4,7 @@ import { MyContext } from '../context';
 interface CounterProps {
 }
 function Counter(props: CounterProps) {
-  const [state, setState] = useContext(MyContext);
+  const {state, setState} = useContext(MyContext);
   const { } = props;
   return (
     <div>
