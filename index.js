@@ -6,24 +6,31 @@ const pkg = require('./package.json')
 const fs = require('fs-extra')
 const ejs = require('ejs')
 const ora = require('ora') // 加载动画
+const chalk = require('chalk') // 粉笔
 const downloadGitRepo = require('download-git-repo')
 
-const { convertToPascalCase, copyDir } = require('./utils')
+const { convertToPascalCase, copyDir, logSuccess } = require('./utils')
 const templates = require('./git-templates')
 const { getGitReposList } = require('./api')
 
 // 定义当前版本
-program.version(pkg.version,'-v, --version')
-program.command('create').alias('c')
+program.version(pkg.version, '-v, --version')
+
+// 定义 create 命令
+program.command('create [pageName] [targetPath]').alias('c')
   .description('生成模板页面~')
-  .action(async () => {
-    const pageName = await input({ message: '请输入项目名称:', default: 'page-demo' });
-    const targetPath = await input({ message: '请输入项目路径:', default: 'pages' });
-    const newPageName = convertToPascalCase(pageName)
+  .option('--style [bool]', '是否引入样式文件？',(value) => value === 'true')
+  .action(async (pageName, targetPath, options) => {
+    const needStyle = options.style
+    // // 获取项目名称
+    pageName = pageName || await input({ message: '请输入项目名称:', default: 'page-demo' });
+    // // 获取项目路径
+    targetPath = targetPath || await input({ message: '请输入项目路径:', default: '.' });
+    const newPageName = (pageName)
     const sourceDir = path.join(__dirname, 'templates/page-context');
     const targetDir = path.join(process.cwd(), targetPath, newPageName);
-    copyDir(sourceDir, targetDir, { pageName: newPageName });
-
+    copyDir(sourceDir, targetDir, { pageName: newPageName, needStyle });
+    logSuccess(`🎉 ${newPageName} 创建成功!!!`)
   })
 
 
@@ -38,7 +45,7 @@ program.command('download').alias('d')
     const list = await getGitReposList(gitName)
     gitLoading.succeed('获取git仓库列表成功')
     const gitPath = await select({ message: '请选择模板:', choices: list || templates });
-    console.log(gitPath)
+    logSuccess(`🎉 ${gitPath} 选择成功!!!`)
     // 获取目标文件夹
     const targrtDir = path.join(process.cwd(), pageName)
     // 下载模板

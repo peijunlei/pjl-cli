@@ -4,7 +4,10 @@ import useSetState from './useSetState';
 import { StateProps } from './types';
 import Counter from './components/Counter';
 
+<% if (needStyle) { %>
 import './index.less';
+<% } %>
+
 function <%= pageName %>() {
   const [state, setState] = useSetState<StateProps>({
     counter: 0,
