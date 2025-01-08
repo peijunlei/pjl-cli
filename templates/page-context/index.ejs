@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { MyContext } from './context';
 import useSetState from './useSetState';
-import { StateProps } from './types';
+import type { StateProps } from './types';
 import Counter from './components/Counter';
 
 <% if (needStyle) { %>
@@ -15,7 +15,7 @@ function <%= pageName %>() {
   useEffect(() => {
   }, []);
   return (
-    <MyContext.Provider value={{ state, setState, }} >
+    <MyContext.Provider value={{ state, setState }} >
       <div className="page">
         <Counter />
       </div>
