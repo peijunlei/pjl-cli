@@ -17,14 +17,16 @@ const { getGitReposList } = require('./api')
 program.version(pkg.version, '-v, --version')
 
 // 定义 create 命令
-program.command('create [pageName] [targetPath]').alias('c')
-  .description('生成模板页面~')
-  .option('--style [bool]', '是否引入样式文件',(value) => value === 'true')
-  .action(async (pageName, targetPath, options) => {
+program
+  .command('create [pageName] [targetPath]')
+  .alias('c')
+  .description('生成模板页面')
+  .option('--style [bool]', '是否引入样式文件', (value) => value === 'true')
+  .action(async (pageName,targetPath, options) => {
     const needStyle = options.style
-    // // 获取项目名称
+    // 获取项目名称
     pageName = pageName || await input({ message: '请输入页面名称:', default: 'DemoPage' });
-    // // 获取项目路径
+    // 获取项目路径
     targetPath = targetPath || await input({ message: '请输入项目路径:', default: 'src' });
     const newPageName = (pageName)
     const sourceDir = path.join(__dirname, 'templates/page-context');
